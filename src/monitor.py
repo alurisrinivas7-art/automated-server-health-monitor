@@ -1,0 +1,29 @@
+import psutil
+
+
+def get_system_health():
+    """Collect current CPU, memory, and disk usage."""
+
+    cpu = psutil.cpu_percent(interval=1)
+    memory = psutil.virtual_memory().percent
+    disk = psutil.disk_usage("/").percent
+
+    return {
+        "cpu_percent": cpu,
+        "memory_percent": memory,
+        "disk_percent": disk,
+    }
+
+
+def main():
+    health = get_system_health()
+
+    print("Server Health")
+    print("-------------")
+    print(f"CPU Usage:    {health['cpu_percent']}%")
+    print(f"Memory Usage: {health['memory_percent']}%")
+    print(f"Disk Usage:   {health['disk_percent']}%")
+
+
+if __name__ == "__main__":
+    main()
