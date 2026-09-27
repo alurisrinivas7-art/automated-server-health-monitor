@@ -1,6 +1,9 @@
 import json
 import psutil
 
+from src.alerts import send_warnings
+from src.config import get_webhook_url
+
 THRESHOLD = 85.0
 
 
@@ -88,6 +91,20 @@ def main():
 
         for warning in warnings:
             print(f"WARNING: {warning}")
+
+
+    webhook_url = get_webhook_url()
+
+    if warnings and webhook_url:
+        send_warnings(webhook_url, warnings)
+        print("\nWebhook alert sent.")
+
+
+    webhook_url = get_webhook_url()
+
+    if warnings and webhook_url:
+        send_warnings(webhook_url, warnings)
+        print("\nAlert sent successfully.")
 
 
 if __name__ == "__main__":
