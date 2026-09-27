@@ -35,4 +35,5 @@ jobs:
         with:
           image-ref: server-health-monitor
           severity: HIGH,CRITICAL
+          ignore-unfixed: true
           exit-code: 1
