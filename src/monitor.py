@@ -40,6 +40,19 @@ def create_health_report(health):
         "metrics": health,
     }
 
+def get_warning_messages(report):
+    """Create alert messages for metrics above the threshold."""
+
+    warnings = []
+
+    for metric, status in report["status"].items():
+        if status == "WARNING":
+            value = report["metrics"][f"{metric}_percent"]
+            warnings.append(
+                f"{metric.upper()} usage is high: {value}%"
+            )
+
+    return warnings
 
 def main():
     health = get_system_health()
@@ -66,6 +79,15 @@ def main():
     print("\nJSON Health Report")
     print("------------------")
     print(json.dumps(report, indent=2))
+
+    warnings = get_warning_messages(report)
+
+    if warnings:
+        print("\nWarnings")
+        print("--------")
+
+        for warning in warnings:
+            print(f"WARNING: {warning}")
 
 
 if __name__ == "__main__":
